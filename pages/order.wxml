@@ -1,0 +1,32 @@
+
+  <view class="container">
+    <!-- 订单页面 -->
+    <view class="orders">
+      <view class="user flex">
+        <view  wx:if="{{ActicityUser}}" class="userinfo flex">
+          <view class="avtor"><image src="{{ActicityUser.avatar_url}}"/></view>
+          <text>{{ActicityUser.nick_name}}</text>
+        </view>
+        <button  wx:if="{{!ActicityUser}}" open-type="getUserInfo" bindgetuserinfo="goLogin" formType="submit">登录</button>
+      </view>
+      <view class="title">我的订单</view>
+      <view class="no-order" wx:if="{{!ActicityUser}}">还没登录, 去登录~</view>
+      <view class="no-order" wx:if="{{ActicityUser&&!orderList.length}}">还没有订单~</view>
+      <view class="order" wx:if="{{orderList.length}}">
+        <block wx:for="{{orderList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+          <form bindsubmit="goOrderDetail" report-submit="true" data-wpygoorderdetail-a="{{index}}">
+            <view class="order-wrap flex">
+              <view class="order-info">
+                <view class="order-title">{{item.project_title}}</view>
+                <view class="order-time">{{item.create_time}}</view>
+              </view>
+              <view class="order-state flex">
+                <text>{{item.order_state }}</text> <text class="order-arrow"/></view>
+            </view>
+            <button class="form-btn" formType="submit">11</button>
+          </form>
+        </block>
+      </view>
+    </view>
+    
+  </view>

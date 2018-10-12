@@ -1,0 +1,40 @@
+
+  <view class="container">
+    <view class="lesson-info flex">
+      <text class="lesson-title"><text>活动名称:</text> {{activityInfo.project_title}}</text>
+      <text class="lesson-time"><text>活动时间:</text> {{activityInfo.project_time}}</text>
+      <text class="lesson-price"><text>活动价格:</text> ¥{{activityInfo.project_price}}</text>
+    </view>
+    <view class="lesson-state">
+      <view class="icon flex">
+        <image src="../image/success.png"/>
+        <view class="success">支付成功</view>
+      </view>
+      <view class="tip">请于<text class="red">{{activityInfo.project_time}}</text>准时入群参加活动</view>
+      <button class="btn btn1" bindtap="showGroupCode">加入活动微信群</button>
+      <button class="btn btn2" bindtap="goGroupDetail">查看活动</button>
+    </view>
+    <!-- 加群提醒 -->
+    <view class="paypop {{show ?'fadein':''}} {{hide ?'fadeout':''}}">
+      <view class="paypop-wrap paypop-wrap1">
+          <view class="close close1"><text>加群提醒</text><image src="../image/close.png" bindtap="closeGroupCode"/></view>
+          <view class="info info1">请在加群页面：</view>
+          <view class="price price1 flex">
+            <text>{{activityInfo.project_wx_reply_text}}</text>
+            <text class="codedes">获取活动微信群二维码</text>
+          </view>
+          <button open-type="contact">知道了,去加群</button>
+      </view>
+    </view>
+    <!-- <view class="paypop {{show ?'fadein':''}} {{hide ?'fadeout':''}}">
+      <view class="paypop-wrap paypop-wrap1">
+          <view class="close close1"><text>加群提醒</text><image src="../image/close.png" bindtap="closeGroupCode" /></view>
+          <view class="info info1">请在加群页面：</view>
+          <view class="price price1 flex">
+            <text>回复 {{activityInfo.project_wx_reply_text}}</text>
+            <text class="codedes">获取活动微信群二维码</text>
+          </view>
+          <button open-type="contact">知道了,去加群</button>
+      </view>
+    </view> -->
+  </view>

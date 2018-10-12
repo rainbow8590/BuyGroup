@@ -1,0 +1,349 @@
+
+  <view class="container"  wx:if="{{ajaxOver}}">
+   <!--  <image src="../image/democode.png" bindtap="see" /> -->
+    <view class="top-banner">
+      <image src="{{activity.project_top_image}}" mode="widthFix"/>
+    </view>
+    <view class="activity-title activity-title1 flex">
+      <text>{{activity.project_title}}</text>
+      <button class="share-wrap flex" open-type="share" wx:if="{{activity.project_signup_end_time*1000 > nowTime && activity.published_time!= 0}}">
+        <image class="share" src="../image/share.png"/>
+        <text>分享</text>
+      </button>
+      </view>
+    <view class="info info1">
+        <view class="buy flex">
+            <view class="des">
+              <view class="time">{{activity.project_time}}</view>
+                <!-- 单独购买价格展示 -->
+                <view class="price flex" wx:if="{{activity.project_type==1}}">
+                  <view class="now-price">¥{{activity.project_price}}</view>
+                </view>
+                <!-- 仅团购价格展示 -->
+                <view class="price flex" wx:if="{{activity.project_type==2}}">
+                  <view class="now-price">¥{{activity.project_group_price}}</view>
+                  <view class="old-price flex">
+                    <text class="old" style="opacity:0">¥{{activity.project_price}}</text>
+                    <text>{{activity.project_group_num}}人团</text>
+                  </view>
+                </view>
+                <!-- 单独购买和团购价格展示 -->
+                <view class="price flex" wx:if="{{activity.project_type==3}}">
+                  <view class="now-price">¥{{activity.project_group_price}}</view>
+                  <view class="old-price flex">
+                    <text class="old">¥{{activity.project_price}}</text>
+                    <text>{{activity.project_group_num}}人团</text>
+                  </view>
+                </view>
+            </view>
+            <view class="btn">
+              <button style="opacity:0">购买</button>
+              <view>{{activity.signup_num}}人已购买</view>
+            </view>
+        </view>
+      </view>
+    <!-- 拼团详情 提示语 -->
+    <view class="now-detail" wx:if="{{userLen > 0}}">
+      <!-- 拼团成功提示语  已购买 && 参团人满-->
+      <view class="success" wx:if="{{ActivityStatus == 1 && activity.project_group_num == activity.project_group_user.length}}">
+        <view class="state"><text class="red">拼团成功，</text>请加入活动微信群</view>
+        <view class="state1"><text class="red">{{activity.project_group_num}}人</text>完成参团</view>
+      </view>
+      <!-- 拼团失败提示语  已购买 && 参团人不满 && 购买时间超过24小时-->
+      <view class="fail" wx:if="{{ ActivityStatus == 2 }}">
+        <view class="state">已退款 拼团失败</view>
+        <view class="state1">还差<text class="red">{{activity.project_group_num - activity.project_group_user.length}}人</text>参团</view>
+      </view>
+      <!-- 拼团倒计时提示语 已购买 && 参团人不满 -->
+      <view class="countdown" wx:if="{{ActivityStatus !=2 && activity.project_group_countdown > 0 && activity.project_group_user.length>0 && activity.project_group_num > activity.project_group_user.length}}">
+        <view class="state">距拼团结束<text class="timebg">{{hours}}</text>:<text class="timebg">{{mins}}</text>:<text class="timebg">{{secs}}</text>
+        </view>
+        <view class="state1">还差<text class="red">{{activity.project_group_num - activity.project_group_user.length}}人</text>参团</view>
+      </view>
+      <view class="group-avtor flex">
+        <block wx:for="{{activity.project_group_user}}" wx:for-index="index" wx:for-item="item" wx:key="index"> 
+          <view class="item">
+              <view class="avtor"><image src="{{item.avatar_url}}"/></view>
+              <view class="avtor-name">{{item.nickname}}</view>
+              <view class="avtor-leader" wx:if="{{index == 0}}">团长</view>
+          </view>
+        </block>
+        <block wx:for="{{activity.project_group_num-activity.project_group_user.length}}" wx:for-index="index" wx:for-item="item" wx:key="index"> 
+          <view class="item">
+              <view class="avtor avtor1">?</view>
+              <view class="avtor-name"/>
+          </view>
+        </block>
+      </view>
+      <!-- <form bindsubmit="goOrderDetail" report-submit="true" wx:if="{{selfInUsers && selfStatus == 1}}">
+        <button class="look-order" formType="submit">查看订单 > </button>
+      </form> -->
+    </view>
+  <!-- {{activity.published_time}}~~0000 -->
+    <image src="{{activity.project_content_image}}" mode="widthFix"/>
+    <view wx:if="{{activity.published_time!= 0&& (activity.project_signup_end_time*1000 > nowTime || (activity.project_signup_end_time*1000 < nowTime &&activity.order_status == 1 ))}}">
+      <view wx:if="{{!ActicityUser}}">
+        <view class="btns flex" wx:if="{{activity.project_type == 3  }}">
+          <view class="btn redirect">
+            <button open-type="getUserInfo" bindgetuserinfo="lookPay" class="flex" data-wpylookpay-a="1" data-wpylookpay-b="{{activity.project_price}}">
+              <view>¥{{activity.project_price}}</view>
+              <text>单独购买</text>
+            </button>
+          </view>
+          <view class="btn gogroup flex">
+            <button open-type="getUserInfo" bindgetuserinfo="lookPay" class="flex" data-wpylookpay-a="2" data-wpylookpay-b="{{activity.project_group_price}}">
+              <view>¥{{activity.project_group_price}}</view>
+              <text>发起拼团</text>
+            </button>
+          </view>
+        </view>
+        <view class="btns flex" wx:elif="{{activity.project_type == 2 }}">
+          <view class="btn redirect redirect2 flex">
+            <text>¥{{activity.project_group_price}}</text>
+          </view>
+          <view class="btn gogroup gogroup2 flex">
+            <button open-type="getUserInfo" bindgetuserinfo="lookPay" data-wpylookpay-a="2" data-wpylookpay-b="{{activity.project_group_price}}">发起拼团</button>
+          </view>
+        </view>
+        <view class="btns flex" wx:else="{{activity.project_type == 1 }}">
+          <view class="btn redirect redirect2 flex">
+            <text>¥{{activity.project_price}}</text>
+          </view>
+          <view class="btn gogroup gogroup2 flex">
+            <button open-type="getUserInfo" bindgetuserinfo="lookPay" data-wpylookpay-a="1" data-wpylookpay-b="{{activity.project_price}}">立即报名</button>
+          </view>
+        </view>
+      </view>
+      <view wx:else="{{ActicityUser}}">
+        <!-- order_type  1 直接购买  2 团购 -->
+        <!-- 单独购买, 显示价格 -->
+        <view class="btns {{!activity.order_id?'':'btns1'}} flex" wx:if="{{activity.project_type == 1 || (activity.project_type == 3 && activity.order_type == 1) }}">
+          <!-- 未下单 -->
+          <block wx:if="{{!activity.order_id}}">
+            <view class="btn redirect redirect2 flex">
+              <text>¥{{activity.project_price}}</text>
+            </view>
+            <view class="btn gogroup gogroup2 flex">
+              <button open-type="getUserInfo" bindgetuserinfo="lookPay" data-wpylookpay-a="1" data-wpylookpay-b="{{activity.project_price}}">立即报名</button>
+            </view>
+          </block>
+          <!-- 下单已付款 -->
+          <block wx:if="{{activity.order_id && activity.order_status == 1}}">
+            <view class="btn redirect redirect1 flex">
+              <form bindsubmit="goOrderDetail" report-submit="true">
+                <button formType="submit">查看订单 </button>
+              </form>
+            </view>
+            <view class="btn gogroup gogroup1 flex">
+              <form bindsubmit="showGroupCode" report-submit="true">
+                <button formType="submit">加入活动微信群 </button>
+              </form>
+            </view>
+          </block>
+          <!-- 只下单 未付款 -->
+          <view wx:elif="{{activity.order_id && activity.order_status == 0}}">
+            <!-- 继续支付 -->
+            <view class="btns flex" wx:if="{{remainTime > 0}}">
+                <view class="btn redirect redirect2 redirect3 flex">
+                  <text>您已成功抢占名额</text>
+                </view>
+                <view class="btn gogroup gogroup2 gogroup3 ">
+                  <button open-type="getUserInfo" bindgetuserinfo="lookPay" data-wpylookpay-a="{{activity.order_type}}" data-wpylookpay-b="{{activity.order_type == 1? activity.project_price : activity.project_group_price}}">去支付( <text>{{selfHours}}:{{selfMins}}:{{selfSecs}} </text>)</button>
+                </view>
+            </view>
+            <!-- 超时 重新下单 -->
+            <view class="btns flex" wx:if="{{remainTime <= 0}}">
+              <view class="btns flex" wx:if="{{activity.project_type == 3 }}">
+                <view class="btn redirect">
+                  <button open-type="getUserInfo" bindgetuserinfo="lookPay" class="flex" data-wpylookpay-a="1" data-wpylookpay-b="{{activity.project_price}}">
+                    <view>¥{{activity.project_price}}</view>
+                    <text>单独购买</text>
+                  </button>
+                </view>
+                <view class="btn gogroup flex">
+                  <button open-type="getUserInfo" bindgetuserinfo="lookPay" class="flex" data-wpylookpay-a="2" data-wpylookpay-b="{{activity.project_group_price}}">
+                    <view>¥{{activity.project_group_price}}</view>
+                    <text>发起拼团</text>
+                  </button>
+                </view>
+              </view>
+              <view class="btns flex" wx:if="{{activity.project_type == 1}}">
+                <view class="btn redirect redirect2 flex">
+                  <text>¥{{activity.project_price}}</text>
+                </view>
+                <view class="btn gogroup gogroup2 ">
+                  <button open-type="getUserInfo" bindgetuserinfo="lookPay" data-wpylookpay-a="1" data-wpylookpay-b="{{activity.project_group_price}}">立即报名</button>
+                </view>
+              </view>
+      
+            </view>
+          </view>
+        </view>
+        <!-- 团购 和 团购/直接购买 -->
+        <view class="ft" wx:if="{{activity.project_type == 2  || (activity.project_type == 3&&(activity.order_type == 2||activity.order_type == null)) }}">
+          <!-- 下单并且已购买 -->
+          <view wx:if="{{selfInUsers && selfStatus == 1}}">
+            <!-- 满团 -->
+            <view class="btns btns1 flex" wx:if="{{activity.project_group_num == activity.project_group_user.length }}">
+              <view class="btn redirect redirect1 flex">
+                <form bindsubmit="goOrderDetail" report-submit="true">
+                  <button formType="submit">查看订单 </button>
+                </form>
+              </view>
+              <view class="btn gogroup gogroup1 flex">
+                <form bindsubmit="showGroupCode" report-submit="true">
+                  <button formType="submit">加入活动微信群</button>
+                </form>
+              </view>
+            </view>
+            
+            <!-- 团未满 -->
+            <view wx:elif="{{activity.project_group_num > activity.project_group_user.length}}">
+              <!-- 倒计时 -->
+              <!-- <view class="btns  flex" wx:if="{{ActivityStatus == 0 && countDown > 0}}"> -->
+              <view class="btns  flex" wx:if="{{ActivityStatus == 0 }}">
+                  <view class="btn redirect group-again">
+                    <form bindsubmit="showFriend" report-submit="true">
+                      <button formType="submit">邀请好友</button>
+                    </form>
+                  </view>
+              </view>
+              <!-- 已超时 -->
+              <!-- <view  wx:if="{{countDown <= 0 && ActivityStatus == 2 }}"> -->
+              <view wx:if="{{ActivityStatus == 2 }}">
+                <view class="btns flex" wx:if="{{activity.project_type == 3 }}">
+                  <view class="btn redirect">
+                    <button open-type="getUserInfo" bindgetuserinfo="lookPay" class="flex" data-wpylookpay-a="1" data-wpylookpay-b="{{activity.project_price}}">
+                      <view>¥{{activity.project_price}}</view>
+                      <text>单独购买</text>
+                    </button>
+                  </view>
+                  <view class="btn gogroup flex">
+                    <button open-type="getUserInfo" bindgetuserinfo="lookPay" class="flex" data-wpylookpay-a="2" data-wpylookpay-b="{{activity.project_group_price}}">
+                      <view>¥{{activity.project_group_price}}</view>
+                      <text>发起拼团</text>
+                    </button>
+                  </view>
+                </view>
+                <view class="btns flex" wx:if="{{activity.project_type == 2}}">
+                  <view class="btn redirect redirect2 flex">
+                    <text>¥{{activity.project_group_price}}</text>
+                  </view>
+                  <view class="btn gogroup gogroup2 ">
+                    <button open-type="getUserInfo" bindgetuserinfo="lookPay" data-wpylookpay-a="2" data-wpylookpay-b="{{activity.project_group_price}}">发起拼团</button>
+                  </view>
+                </view>
+              </view>
+            </view>
+        </view>
+          
+          <!-- 只下单 未购买 -->
+          <view wx:elif="{{selfInUsers && selfStatus == 0}}">
+            <!-- 继续支付 -->
+            <view class="btns flex" wx:if="{{activity.remain_time >= 0 && activity.project_group_countdown>0}}">
+                <view class="btn redirect redirect2 redirect3 flex">
+                  <text>您已成功抢占名额</text>
+                </view>
+                <view class="btn gogroup gogroup2 gogroup3 ">
+                  <button open-type="getUserInfo" bindgetuserinfo="lookPay" data-wpylookpay-a="{{activity.order_type}}" data-wpylookpay-b="{{activity.order_type == 1? activity.project_price : activity.project_group_price}}">去支付( <text>{{selfHours}}:{{selfMins}}:{{selfSecs}} </text>)</button>
+                </view>
+            </view>
+            <!-- 超时 重新下单 -->
+            <view class="btns flex" wx:else="{{activity.remain_time <= 0}}">
+              <view class="btns flex" wx:if="{{activity.project_type == 3 }}">
+                <view class="btn redirect">
+                  <button open-type="getUserInfo" bindgetuserinfo="lookPay" class="flex" data-wpylookpay-a="1" data-wpylookpay-b="{{activity.project_price}}">
+                    <view>¥{{activity.project_price}}</view>
+                    <text>单独购买</text>
+                  </button>
+                </view>
+                <view class="btn gogroup flex">
+                  <button open-type="getUserInfo" bindgetuserinfo="lookPay" class="flex" data-wpylookpay-a="2" data-wpylookpay-b="{{activity.project_group_price}}">
+                    <view>¥{{activity.project_group_price}}</view>
+                    <text>发起拼团</text>
+                  </button>
+                </view>
+              </view>
+              <view class="btns flex" wx:if="{{activity.project_type == 2}}">
+                <view class="btn redirect redirect2 flex">
+                  <text>¥{{activity.project_group_price}}</text>
+                </view>
+                <view class="btn gogroup gogroup2 ">
+                  <button open-type="getUserInfo" bindgetuserinfo="lookPay" data-wpylookpay-a="2" data-wpylookpay-b="{{activity.project_group_price}}">发起拼团</button>
+                </view>
+              </view>
+      
+            </view>
+          </view>
+          <!-- 未下单-->
+          <view wx:if="{{selfInUsers == false}}">
+              <view class="btns flex" wx:if="{{activity.project_type == 3 }}">
+                <view class="btn redirect">
+                  <button open-type="getUserInfo" bindgetuserinfo="lookPay" class="flex" data-wpylookpay-a="1" data-wpylookpay-b="{{activity.project_price}}">
+                    <view>¥{{activity.project_price}}</view>
+                    <text>单独购买</text>
+                  </button>
+                </view>
+                <view class="btn gogroup flex">
+                  <button open-type="getUserInfo" bindgetuserinfo="lookPay" class="flex" data-wpylookpay-a="2" data-wpylookpay-b="{{activity.project_group_price}}">
+                    <view>¥{{activity.project_group_price}}</view>
+                    <text>{{activity.project_group_user.length>0&&activity.project_group_num > activity.project_group_user.length?'参加拼团':'发起拼团'}}</text>
+                  </button>
+                </view>
+              </view>
+              <view class="btns flex" wx:if="{{activity.project_type == 2}}">
+                <view class="btn redirect redirect2 flex">
+                  <text>¥{{activity.project_group_price}}</text>
+                </view>
+                <view class="btn gogroup gogroup2 ">
+                  <button open-type="getUserInfo" bindgetuserinfo="lookPay" data-wpylookpay-a="2" data-wpylookpay-b="{{activity.project_group_price}}">{{activity.project_group_user.length>0&&activity.project_group_num > activity.project_group_user.length?'参加拼团':'发起拼团'}}</button>
+                </view>
+              </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 活动已结束按钮 -->
+    <view class="btns  flex" wx:if="{{activity.project_signup_end_time*1000 < nowTime && activity.order_status != 1 || activity.published_time==0}}">
+      <view class="btn redirect group-over">
+        <text>活动已结束</text>
+      </view>
+    </view>
+    <!-- 支付 -->
+    <view class="paypop {{showPay ?'fadein':''}} {{hidePay ?'fadeout':''}}">
+      <view class="paypop-wrap">
+          <view class="close"><image src="../image/close.png" bindtap="closePay"/></view>
+          <view class="price">¥{{buyPrice}}</view>
+          <view class="info">
+            <view>活动名称：{{activity.project_title}}</view>
+            <view class="nobdb">上课时间：{{activity.project_time}}</view>
+          </view>
+          <button bindtap="pay">微信支付</button>
+      </view>
+    </view>
+    <!-- 加群提醒 -->
+    <view class="paypop {{show ?'fadein':''}} {{hide ?'fadeout':''}}">
+      <view class="paypop-wrap paypop-wrap1">
+          <view class="close close1"><text>加群提醒</text><image src="../image/close.png" bindtap="closeGroupCode"/></view>
+          <view class="info info1">请在加群页面：</view>
+          <view class="price price1 flex">
+            <text>{{activity.project_wx_reply_text}}</text>
+            <text class="codedes">获取活动微信群二维码</text>
+          </view>
+          <button open-type="contact">知道了,去加群</button>
+      </view>
+    </view>
+    <!-- 邀请好友 -->
+    <view class="zoom {{showFriend ?'fadein':''}} {{hideFriend?'fadeout':''}}">
+      <view class="zoom-wrap">
+        <view class="zoom-btns flex">
+          <button open-type="share"><image src="../image/share-friend.png"/>分享给好友</button>
+          <button bindtap="goSharePic"><image src="../image/share-pic.png"/>生成分享图片</button>
+        </view>
+        <view class="close" bindtap="closeFriend"><image src="../image/circle-close.png"/></view>
+      </view>
+    </view>
+    <!-- 返回首页  wx:if="{{groupInviterId!=0}}"-->
+    <!-- <view class="back-index" bindtap="goIndex" wx:if="{{groupInviterId!=0}}"><text></text>返回首页</view> -->
+  </view>

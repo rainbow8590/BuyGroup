@@ -1,0 +1,6 @@
+
+  <view class="container">
+    <image src="../image/login.png"/>
+    <button open-type="getPhoneNumber" bindgetphonenumber="getPhone">微信用户快速登录</button>
+    <!-- <view class="asphone" bindtap="loginAsPhone">手机号码登录/注册</view> -->
+  </view>

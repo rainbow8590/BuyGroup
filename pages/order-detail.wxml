@@ -1,0 +1,35 @@
+
+  <view class="container">
+    <view class="order-detail flex">
+      <text class="detail-item">活动名称: </text>
+      <text>{{activityInfo.project_title}}</text>
+    </view>
+    <view class="order-detail flex">
+      <text class="detail-item">订单编号: </text>
+      <text>{{activityInfo.order_no}}</text>
+    </view>
+    <view class="order-detail flex">
+      <text class="detail-item">订单状态: </text>
+      <text>{{activityInfo.order_state}}</text>
+    </view>
+    <view class="order-detail flex">
+      <text class="detail-item">支付时间: </text>
+      <text>{{activityInfo.create_time}}</text>
+    </view>
+    <view class="order-detail flex">
+      <text class="detail-item">实付金额: </text>
+      <text>¥{{activityInfo.order_price}}</text>
+    </view>
+    <view class="order-detail flex">
+      <text class="detail-item">付费方式: </text>
+      <text>{{activityInfo.pay_type == 'wxpay'?'微信':activityInfo.pay_type}}</text>
+    </view>
+    <view class="btns">
+      <form bindsubmit="goGroupDetail" report-submit="true">
+        <button class="look" formType="submit">查看活动</button>
+      </form>
+      <form bindsubmit="goOrders" report-submit="true">
+        <button class="order" formType="submit">全部订单</button>
+      </form>
+    </view>
+  </view>

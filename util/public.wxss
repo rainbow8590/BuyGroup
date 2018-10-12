@@ -1,0 +1,241 @@
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background-color: #fff;
+}
+.flex {
+  display: flex;
+}
+.fadein {
+  animation: fadein .4s  ease both;
+}
+@keyframes fadein {
+  0% {
+    opacity: 0;
+    left: 0;
+  }
+  100% {
+    opacity: 1;
+    left: 0;
+  }
+}
+.fadeout {
+  animation: fadeout .4s  ease both;
+}
+@keyframes fadeout {
+  0% {
+    opacity: 1;
+    left: 0;
+  }
+  99% {
+    opacity: 0 ;
+    left: 0;
+  }
+  100% {
+    opacity: 0 ;
+    left: -100%;
+  }
+}
+form {
+  position: relative;
+  width: 100%;
+  display: block;
+}
+.form-btn {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+.paypop {
+  position: fixed;
+  bottom: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+.paypop .paypop-wrap {
+  width: 100%;
+  padding: 0 20rpx 20rpx 20rpx;
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background: #fff;
+}
+.paypop .paypop-wrap .close {
+  width: 100%;
+  padding-top: 20rpx;
+  text-align: right;
+}
+.paypop .paypop-wrap .close image {
+  display: inline-block;
+  width: 30rpx;
+  height: 30rpx;
+}
+.paypop .paypop-wrap .close1 {
+  background: #f7f7f7;
+  border-bottom: 1px solid #d6d6d6;
+  display: flex;
+  padding-top: 0;
+  justify-content: space-between;
+  align-items: center;
+}
+.paypop .paypop-wrap .close1 text {
+  font-size: 30rpx;
+  line-height: 80rpx;
+  flex: 1;
+  text-align: center;
+}
+.paypop .paypop-wrap .close1 image {
+  margin-right: 20rpx;
+}
+.paypop .paypop-wrap .price {
+  font-size: 50rpx;
+  color: #ff3c00;
+  text-align: center;
+  margin-bottom: 34rpx;
+}
+.paypop .paypop-wrap .price1 {
+  color: #191919;
+  flex-direction: column;
+  text-align: center;
+}
+.paypop .paypop-wrap .price1 .codedes {
+  font-size: 26rpx;
+  line-height: 60rpx;
+}
+.paypop .paypop-wrap .info {
+  line-height: 64rpx;
+  font-size: 26rpx;
+}
+.paypop .paypop-wrap .info view {
+  border-bottom: 1px solid #d6d6d6;
+}
+.paypop .paypop-wrap .info view.nobdb {
+  border-bottom: none;
+}
+.paypop .paypop-wrap .info1 {
+  padding-left: 20rpx;
+}
+.paypop .paypop-wrap button {
+  margin-top: 10rpx;
+  width: 720rpx;
+  height: 90rpx;
+  line-height: 90rpx;
+  border: none;
+  border-radius: 10rpx;
+  background: #3dcc6f;
+  font-size: 34rpx;
+  color: #fff;
+  margin-bottom: 10rpx;
+}
+.paypop .paypop-wrap1 {
+  padding: 0;
+  padding-bottom: 20rpx;
+}
+.zoom {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+.zoom .zoom-wrap {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.zoom .zoom-wrap button {
+  width: 50%;
+  background: rgba(255, 255, 255, 0);
+  color: #fff;
+  font-size: 26rpx;
+}
+.zoom .zoom-wrap button image {
+  width: 100rpx;
+  height: 100rpx;
+  display: block;
+  margin: 0 auto;
+}
+.zoom .zoom-wrap .close {
+  width: 100%;
+  text-align: center;
+  margin-top: 80rpx;
+  margin-bottom: 94rpx;
+}
+.zoom .zoom-wrap .close image {
+  width: 60rpx;
+  height: 60rpx;
+}
+.info1 {
+  padding: 0 34rpx;
+  padding-bottom: 50rpx;
+}
+.activity-title {
+  width: 100%;
+  padding-top: 40rpx;
+  line-height: 54rpx;
+  font-size: 36rpx;
+}
+.activity-title1 {
+  padding-left: 34rpx;
+  padding-right: 34rpx;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+.info {
+  width: 100%;
+  box-sizing: border-box;
+}
+.info .buy {
+  font-size: 26rpx;
+  justify-content: space-between;
+}
+.info .buy .des {
+  color: #191919;
+}
+.info .buy .des .time {
+  color: #3c3c3c;
+  line-height: 40rpx;
+}
+.info .buy .des .price {
+  padding-top: 26rpx;
+}
+.info .buy .des .price .now-price {
+  font-size: 44rpx;
+  color: #e55e4e;
+  line-height: 44rpx;
+  padding-top: 14rpx;
+}
+.info .buy .des .price .old-price {
+  color: #b1b0b0;
+  padding-left: 18rpx;
+  flex-direction: column;
+  font-size: 24rpx;
+  line-height: 28rpx;
+  text-align: center;
+}
+.info .buy .des .price .old-price .old {
+  text-decoration: line-through;
+}
+.info .buy .btn {
+  color: #3c3c3c;
+}
+.info .buy .btn button {
+  width: 150rpx;
+  height: 60rpx;
+  background: #3dcc6f;
+  color: #fff;
+  font-size: 26rpx;
+  margin-bottom: 28rpx;
+}
+.info .buy .btn view {
+  text-align: right;
+}

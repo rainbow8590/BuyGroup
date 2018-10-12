@@ -1,0 +1,14 @@
+
+  <view class="container">
+    <form>
+      <view class="form-item flex">
+        <input type="number" maxlength="11" placeholder="请输入手机号" placeholder-style="color:#b1b0b0;font-size: 34rpx;" bindinput="getPhone" bindblur="checkPhone"/>
+        <text catchtap="sendCode">{{codeText}}</text>
+      </view>
+      <view class="form-item flex">
+        <input type="number" maxlength="4" placeholder="请输入验证码" placeholder-style="color:#b1b0b0;font-size: 34rpx;" bindinput="wirteCode" bindblur="checkCode"/>
+      </view>
+      <button bindtap="login">登 录</button>
+    </form>
+    <!-- <view class="toast {{isError ?'animation':''}} {{isHide ?'animation1':''}}" >{{tipText}}</view> -->
+  </view>
