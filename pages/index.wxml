@@ -4,8 +4,8 @@
       <form bindsubmit="goGroupDetail" report-submit="true" data-wpygogroupdetail-a="{{item.id}}">
         <view class="activity">
           <view class="banner"><image src="{{item.project_image}}" mode="widthFix"/></view>
-          <view class="banner"><image src="../image/demo.jpg" mode="widthFix"/></view>
-          
+          <!-- <view class="banner"><image src="../image/demo.jpg" mode="widthFix" /></view> -->
+
           <view class="activity-title">{{item.project_title}}</view>
           <view class="info">
             <view class="buy flex">
